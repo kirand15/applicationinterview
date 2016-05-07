@@ -27,7 +27,7 @@ public class ConnectionProvider {
         	String password = propertiesLookup.getProperty("dbpassword");
 			String dbUrl = "jdbc:postgresql://localhost:5432/saasApp";
 			System.out.println(dbUrl);
-		return DriverManager.getConnection(dbUrl, "postgres", "endless15");
+		return DriverManager.getConnection(dbUrl, userName , password );
 	}
 
 	public static void main(String[] args) {
