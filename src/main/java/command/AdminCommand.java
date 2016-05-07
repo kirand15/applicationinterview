@@ -42,6 +42,19 @@ public class AdminCommand {
 		}
 	}
 	
+	public void updateQuestion(Questions questions){
+		try{
+			String sql = "UPDATE questions SET chioces =? AND answer = ? WHERE question = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, questions.getOptions());
+			preparedStatement.setString(2, questions.getAnswer());
+			preparedStatement.setString(1, questions.getQuestion());
+			preparedStatement.executeUpdate();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
 	public List<userModel> showUsersList(){
 		userModel usermodel;
 		List<userModel> usersList = new ArrayList<userModel>();
@@ -64,4 +77,12 @@ public class AdminCommand {
 		return usersList;
 	}
 	
+	public void deleteUser(userModel userModel){
+		try{
+			Statement statement = connection.createStatement();
+			statement.executeUpdate("DELETE FROM userdata WHERE email = '"+userModel.getUserEmail().trim()+"'");
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 }

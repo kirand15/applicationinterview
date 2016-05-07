@@ -70,12 +70,13 @@ function callNextQuestion(){
     });	
 }
 
+function goToUserReg(){
+	window.location = contextPath+"/rest/interview/mvc/goToReg";
+}
 
-$("#clickProceed").click( function()
-        {
-		
-        }
-     );
+function logOut(){
+	window.location = contextPath+"/rest/interview/mvc/logOut";
+}
 </script>
 <body>
 	<div class="navbar navbar-static-top navbar-inverse">
@@ -84,6 +85,7 @@ $("#clickProceed").click( function()
 		
 			<a href="registration.html" class="navbar-brand">HOME</a>
 			<a href="registration.html" class="navbar-brand">Profile</a>
+			<a href="#" class="navbar-brand" onclick="logOut()">Logout</a>
 	
 		</div>
 		

@@ -16,13 +16,14 @@ var contextPath='<%=request.getContextPath()%>';
 	}
 	
 	function callAddQuestion(){
+		
 		$.ajax({
 	        type: "GET",
 	        url:contextPath+"/rest/interview/mvc/addQuestion",
 	        data:{
-	        	question: $("#questionEntered").val(),
-	        	options: $("#optionsEntered").val(),
-	        	answer: $("#answerEntered").val()
+	        	question:$("#questionEntered").val(),
+	        		options:$("#optionsEntered").val(),
+				answer:$("#answerEntered").val(),
 	        },
 	        success: function (result) {
 	        	$("#message").text(result);
@@ -36,17 +37,32 @@ var contextPath='<%=request.getContextPath()%>';
 
 	function callManageUsers(){
 		$("#addQuestion").css("visibility","hidden");
-		window.location = contextPath+"/rest/interview/mvc/showUsersList";
-		/* $.ajax({
-	        type: "POST",
-	        url:contextPath+"/rest/interview/mvc/showUsersList",
+		/* window.location = contextPath+"/rest/interview/mvc/showUsersList"; */
+		 $.ajax({
+	        type: "GET",
+	        url: contextPath+"/rest/interview/mvc/showUsersList",
 	        success: function (result) {
-	     
+	        	var appenddata = "";
+	        	for(var i = 0; i<result.userList.length;i++){
+	        		appenddata =appenddata+ "<HTML><BODY><SPAN>First Name:"+result.userList[i].userFirstName+"</SPAN><BR>"+
+	        		"<SPAN>Last Name:"+result.userList[i].userLastNAme+"</SPAN><BR>"+
+	        		"<SPAN>Email:"+result.userList[i].userEmail+"</SPAN><BR>"
+	        		+"<SPAN>phone:"+result.userList[i].phone+
+	        		"</SPAN><BR><BUTTON onclick='deleteUser("+result.userList[i].userEmail+")'>Delete</BUTTON></BODY></HTML>";
+	        	}
+	        	$("#showUsersData").text(appenddata)
+	        	$("#delete").css("visisbility","visible");
+	        	$("#showUsersData").css("visibility","visible");
+	     		
 	        },
 	        error: function (xhr, status, error) {
 	        	alert(xhr.responseText);
 	        }
-	    }); */
+	    }); 
+		
+		 function deleteUser(email){
+				window.location = contextPath+"/rest/interview/mvc/deleteUser?email="+email+"";
+		}
 	}
 </script>
 
@@ -93,6 +109,15 @@ var contextPath='<%=request.getContextPath()%>';
 							<div class="col-sm-10">
 								<button onclick="callManageUsers()">Manage Users</button>
 							</div>
+						</div>
+						
+						<div>
+							<span id="showUsersData" style="visibility: hidden;">
+								
+							</span>
+							<span id="delete" style="visibility: hidden;">
+								<button onclick="deleteUser()">Delete</button>
+							</span>
 						</div>
 				</div>
 			</div>		

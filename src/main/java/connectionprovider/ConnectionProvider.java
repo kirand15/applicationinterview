@@ -10,10 +10,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import util.PropertiesLookup;
+
 public class ConnectionProvider {
 	public static Connection getConnection() throws URISyntaxException,
 			SQLException, FileNotFoundException, IOException {
-		Properties properties = new Properties();
+		PropertiesLookup propertiesLookup = new PropertiesLookup();
         try {
         	//properties.load(new FileReader("db.properties"));
 			Class.forName("org.postgresql.Driver");
@@ -21,8 +23,8 @@ public class ConnectionProvider {
 			e.printStackTrace();
 		}
         
-        	//String userName = properties.getProperty("dbusername");
-        	//String password = properties.getProperty("dbpassword");
+        	String userName = propertiesLookup.getProperty("dbusername");
+        	String password = propertiesLookup.getProperty("dbpassword");
 			String dbUrl = "jdbc:postgresql://localhost:5432/saasApp";
 			System.out.println(dbUrl);
 		return DriverManager.getConnection(dbUrl, "postgres", "endless15");

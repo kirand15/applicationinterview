@@ -11,7 +11,7 @@
 	
 		<div class="container">
 			
-			<a href="#" class="navbar-brand">Interview APP</a>
+			<a href="#" class="navbar-brand">Home</a>
 			<a href="#" class="navbar-brand">LOGIN</a>
 						
 		</div>

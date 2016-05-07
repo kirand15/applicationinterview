@@ -9,6 +9,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -153,7 +154,7 @@ public class Services {
 	@GET
 	@Path("mvc/showUsersList")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response showUsersList(){
+	public String showUsersList(){
 		List<userModel> usersList = new ArrayList<userModel>();
 		HashMap hashmap = new HashMap();
 		
@@ -166,7 +167,7 @@ public class Services {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return Response.ok(new Viewable("/showUsersList.jsp"),userString).entity(userString).build();
+		return userString;
 	}
 	
 	@POST
@@ -199,6 +200,26 @@ public class Services {
 		return message;
 	}
 	
+	@PUT
+	@Path("mvc/updateQuestion")
+	public Response updateQuestion(@QueryParam("question") String question,
+			@QueryParam("choices") String choices,
+			@QueryParam("answer") String answer){
+		Questions questions = new Questions();
+		questions.setQuestion(question);
+		questions.setOptions(choices);
+		questions.setAnswer(answer);
+		AdminCommand adminCommand = new AdminCommand();
+		adminCommand.updateQuestion(questions);
+		return Response.ok(new Viewable("/admin.jsp","")).build();
+	}
+	
+	@GET
+	@Path("mvc/logOut")
+	public Response logout(){
+		return Response.ok(new Viewable("/userLogin.jsp","")).build();
+	}
+	
 	@DELETE
 	@Path("mvc/logoutUser")
 	public Response logoutUser(){
@@ -209,9 +230,13 @@ public class Services {
 	
 	
 	@DELETE
-	@Path("mvc/deleteQuestion")
-	public void deleteQuestion(){
-		
+	@Path("mvc/deleteUser")
+	public Response deleteQuestion(@QueryParam("email") String email){
+		userModel usermodel = new userModel(); 
+		AdminCommand adminCommand = new AdminCommand();
+		usermodel.setUserEmail(email);
+		adminCommand.deleteUser(usermodel);
+		return Response.ok(new Viewable("/admin.jsp","")).build();
 	}
 	// Search songs
 }
